@@ -110,6 +110,8 @@ public class SignalServiceAccountManager {
    *                         {@link #requestVoiceVerificationCode}).
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
+   * @param fetchesMessages A boolean that indicates whether the client fetches messages
+   *                        (websockets).
    * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
    *                              This value should remain consistent across registrations for the
    *                              same install, but probabilistically differ across registrations
@@ -118,10 +120,12 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithCode(String verificationCode, String signalingKey, int signalProtocolRegistrationId, boolean voice)
+  public void verifyAccountWithCode(String verificationCode, String signalingKey,
+                                    boolean fetchesMessages, int signalProtocolRegistrationId,
+                                    boolean voice)
       throws IOException
   {
-    this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey,
+    this.pushServiceSocket.verifyAccountCode(verificationCode, signalingKey, fetchesMessages,
                                              signalProtocolRegistrationId, voice);
   }
 
@@ -132,6 +136,8 @@ public class SignalServiceAccountManager {
 
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key,
    *                     concatenated.
+   * @param fetchesMessages A boolean that indicates whether the client fetches messages
+   *                        (websockets).
    * @param axolotlRegistrationId A random 14-bit number that identifies this Signal install.
    *                              This value should remain consistent across registrations for the
    *                              same install, but probabilistically differ across registrations
@@ -140,16 +146,21 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void verifyAccountWithToken(String verificationToken, String signalingKey, int axolotlRegistrationId, boolean voice)
+  public void verifyAccountWithToken(String verificationToken, String signalingKey,
+                                     boolean fetchesMessages, int axolotlRegistrationId,
+                                     boolean voice)
       throws IOException
   {
-    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, axolotlRegistrationId, voice);
+    this.pushServiceSocket.verifyAccountToken(verificationToken, signalingKey, fetchesMessages,
+                                              axolotlRegistrationId, voice);
   }
 
   /**
    * Refresh account attributes with server.
    *
    * @param signalingKey 52 random bytes.  A 32 byte AES key and a 20 byte Hmac256 key, concatenated.
+   * @param fetchesMessages A boolean that indicates whether the client fetches messages
+   *                        (websockets).
    * @param signalProtocolRegistrationId A random 14-bit number that identifies this Signal install.
    *                              This value should remain consistent across registrations for the same
    *                              install, but probabilistically differ across registrations for
@@ -158,10 +169,12 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
-  public void setAccountAttributes(String signalingKey, int signalProtocolRegistrationId, boolean voice)
+  public void setAccountAttributes(String signalingKey, boolean fetchesMessages,
+                                   int signalProtocolRegistrationId, boolean voice)
       throws IOException
   {
-    this.pushServiceSocket.setAccountAttributes(signalingKey, signalProtocolRegistrationId, voice);
+    this.pushServiceSocket.setAccountAttributes(signalingKey, fetchesMessages,
+                                                signalProtocolRegistrationId, voice);
   }
 
   /**
